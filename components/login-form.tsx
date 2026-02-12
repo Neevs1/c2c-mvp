@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
-import { redirect } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 
 
@@ -21,6 +21,8 @@ export function LoginForm({
 }: React.ComponentProps<"div">) {
   const [user,setUser] = useState("");
   const [password,setPwd] = useState("");
+  const [error, setError] = useState("");
+  const router=useRouter();
   const handleUserChange = (event: React.ChangeEvent<HTMLInputElement>) => {
   setUser(event.target.value);
 };
@@ -28,13 +30,34 @@ export function LoginForm({
 const handlePwdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
   setPwd(event.target.value);
 };
-  const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
   event.preventDefault(); // Prevents page reload
   
-  if (user && password) {
-    localStorage.setItem("user", user);
-    redirect("/dashboard");
-  } 
+  try {
+      const res = await fetch("/api/py/login", { 
+        method: "POST",
+        headers: { 
+            "Content-Type": "application/json" 
+        },
+        body: JSON.stringify({ email: user }),
+       });
+      const data = await res.json();
+
+      if(res.ok){
+        localStorage.setItem("user", data.email);
+        router.push("/dashboard"); 
+      }
+
+      if (!res.ok) {
+        const data = await res.json();
+        alert("Invalid email Id, please check")
+        throw new Error(data.detail || "User not found");
+      }
+
+   
+    } catch (err: any) {
+      setError(err.message);
+    }
 }
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
