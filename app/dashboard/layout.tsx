@@ -6,6 +6,7 @@ export default function DashboardLayout({
 }: {
     children: React.ReactNode;
 }) {
+    
     return (
         <div className="flex h-screen w-full bg-[#030712] overflow-hidden font-sans text-white">
             {/* Sidebar: Removed 'hidden' to force visibility for now */}

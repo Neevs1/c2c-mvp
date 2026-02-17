@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 export default function dashboard(){
     const router = useRouter();
-    const [msg,setMsg] = useState("");
+    
     
 
     useEffect(() => {

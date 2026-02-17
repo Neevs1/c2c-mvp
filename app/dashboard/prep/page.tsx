@@ -9,6 +9,8 @@ import { toast } from "sonner"; // Assuming sonner or use standard toast. User d
 // OR simpler: I'll use a state-based toast component inline since I can't install packages easily without user. 
 // Wait, I can use 'radix-ui' toast if available? No, let's just use a simple state-based alert in the component.
 
+import { QuizModal } from "@/components/QuizModal";
+
 // Mock Data with Sub-modules
 const initialModules = [
     {
@@ -67,6 +69,11 @@ export default function PrepDashboard() {
     const [expandedModule, setExpandedModule] = useState<number | null>(null);
     const [showToast, setShowToast] = useState(false);
 
+    // Quiz State
+    const [quizOpen, setQuizOpen] = useState(false);
+    const [quizTopic, setQuizTopic] = useState("");
+    const [quizTitle, setQuizTitle] = useState("");
+
     // Locking Logic: Module N is locked until Module N-1 is 100% complete.
     // For prototype, we'll just check if previous module progress is 100.
     // Since mock data has fixed progress, we handle interaction mock.
@@ -87,12 +94,25 @@ export default function PrepDashboard() {
         setExpandedModule(expandedModule === moduleId ? null : moduleId);
     };
 
+    const handleStartQuiz = (topic: string, title: string) => {
+        setQuizTopic(topic);
+        setQuizTitle(title);
+        setQuizOpen(true);
+    };
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="space-y-8 relative min-h-screen pb-20"
         >
+            <QuizModal
+                isOpen={quizOpen}
+                onClose={() => setQuizOpen(false)}
+                topic={quizTopic}
+                title={quizTitle}
+            />
+
             {/* Custom Toast */}
             <AnimatePresence>
                 {showToast && (
@@ -194,7 +214,13 @@ export default function PrepDashboard() {
                                                                     <CheckCircle2 className="w-3 h-3" /> Completed
                                                                 </span>
                                                             ) : (
-                                                                <button className="text-xs bg-primary/20 text-primary hover:bg-primary hover:text-white px-3 py-1.5 rounded-lg transition-all">
+                                                                <button
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        handleStartQuiz(sub.title, sub.title);
+                                                                    }}
+                                                                    className="text-xs bg-primary/20 text-primary hover:bg-primary hover:text-white px-3 py-1.5 rounded-lg transition-all"
+                                                                >
                                                                     Start
                                                                 </button>
                                                             )}
