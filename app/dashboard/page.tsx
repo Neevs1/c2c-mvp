@@ -14,13 +14,7 @@ export default function dashboard() {
     const [quizTopic, setQuizTopic] = useState("");
     const [quizTitle, setQuizTitle] = useState("");
 
-    useEffect(() => {
-        //If there is no user in local storage, redirect to / i.e. our landing page
-        const storedUser = localStorage.getItem("user");
-        if (!storedUser) {
-            router.push("/");
-        }
-    }, [router]);
+
 
     const handleStartQuiz = (topic: string, title: string) => {
         setQuizTopic(topic);

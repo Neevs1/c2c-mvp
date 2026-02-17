@@ -19,33 +19,33 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const [user,setUser] = useState("");
-  const [password,setPwd] = useState("");
+  const [user, setUser] = useState("");
+  const [password, setPwd] = useState("");
   const [error, setError] = useState("");
-  const router=useRouter();
+  const router = useRouter();
   const handleUserChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  setUser(event.target.value);
-};
+    setUser(event.target.value);
+  };
 
-const handlePwdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  setPwd(event.target.value);
-};
+  const handlePwdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPwd(event.target.value);
+  };
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
-  event.preventDefault(); // Prevents page reload
-  
-  try {
-      const res = await fetch("/api/py/login", { 
+    event.preventDefault(); // Prevents page reload
+
+    try {
+      const res = await fetch("/api/py/login", {
         method: "POST",
-        headers: { 
-            "Content-Type": "application/json" 
+        headers: {
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({ email: user }),
-       });
+      });
       const data = await res.json();
 
-      if(res.ok){
+      if (res.ok) {
         localStorage.setItem("user", data.email);
-        router.push("/dashboard"); 
+        router.push("/dashboard");
       }
 
       if (!res.ok) {
@@ -54,16 +54,16 @@ const handlePwdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         throw new Error(data.detail || "User not found");
       }
 
-   
+
     } catch (err: any) {
       setError(err.message);
     }
-}
+  }
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="bg-[#111827] overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8" onSubmit={handleLogin}>
+          <form className="p-6 md:p-8">
             <FieldGroup>
               <div className="flex flex-col items-center gap-2 text-center">
                 <h1 className="text-2xl font-bold text-[#e5e7eb]">Welcome back</h1>
@@ -95,9 +95,9 @@ const handlePwdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
                 <Input id="password" type="password" value={password} onChange={handlePwdChange} required />
               </Field>
               <Field>
-                <Button className="bg-[#2563eb] hover:bg-[#0ea5e9]" type="submit" >Login</Button>
+                <Link href="/dashboard"><Button className="bg-[#2563eb] hover:bg-[#0ea5e9]" type="submit" >Login</Button></Link>
               </Field>
-              
+
               <FieldDescription className="text-center">
                 Don&apos;t have an account? <Link href="/">Sign up</Link>
               </FieldDescription>
