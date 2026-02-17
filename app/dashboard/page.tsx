@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { QuizModal } from "@/components/QuizModal";
+import { ProgressChart } from "@/components/ProgressChart";
 
 export default function dashboard() {
     const router = useRouter();
@@ -74,6 +75,9 @@ export default function dashboard() {
                     </div>
                 </Card>
             </div>
+
+            {/* Progress Chart */}
+            <ProgressChart />
 
             {/* Revision Quick Access */}
             <div className="space-y-4">

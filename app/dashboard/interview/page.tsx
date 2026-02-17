@@ -16,35 +16,36 @@ import { QuizModal } from "@/components/QuizModal";
 
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 // Mock Data
 const companies = [
     {
-        name: "Google",
-        type: "Product Based",
-        logo: "G",
+        name: "Principal global services",
+        type: "Fintech",
+        logo: "PGS",
         color: "bg-blue-500",
         bg: "bg-blue-500/10",
         border: "border-blue-500/20",
-        description: "Search, Cloud, Advertisements",
+        description: "Financial Services, Investment Banking",
     },
     {
-        name: "Microsoft",
+        name: "Bentley Systems",
         type: "Product Based",
-        logo: "M",
+        logo: "BS",
         color: "bg-orange-500",
         bg: "bg-orange-500/10",
         border: "border-orange-500/20",
-        description: "Windows, Azure, Office 365",
+        description: "Infrastructure Engineering Software",
     },
     {
-        name: "Amazon",
+        name: "Cytel",
         type: "Product Based",
-        logo: "A",
+        logo: "C",
         color: "bg-yellow-500",
         bg: "bg-yellow-500/10",
         border: "border-yellow-500/20",
-        description: "E-Commerce, AWS, Prime",
+        description: "Clinical Research, Biostatistics",
     },
     {
         name: "TCS",
@@ -65,13 +66,13 @@ const companies = [
         description: "Business Consulting, IT",
     },
     {
-        name: "Goldman Sachs",
+        name: "Zomato",
         type: "FinTech",
-        logo: "GS",
-        color: "bg-amber-500",
-        bg: "bg-amber-500/10",
-        border: "border-amber-500/20",
-        description: "Investment Banking, Finance",
+        logo: "Z",
+        color: "bg-red-500",
+        bg: "bg-red-500/10",
+        border: "border-red-500/20",
+        description: "Food Delivery, E-Commerce",
     }
 ];
 
@@ -145,9 +146,9 @@ export default function InterviewPage() {
                                     <Button variant="outline" className="w-full bg-white/5 border-white/10 hover:bg-white/10 hover:text-white hover:border-white/20 text-gray-400 justify-start gap-2 h-9 text-xs">
                                         <Users size={14} className="text-purple-400" /> Questions
                                     </Button>
-                                    <Button variant="outline" className="w-full bg-white/5 border-white/10 hover:bg-white/10 hover:text-white hover:border-white/20 text-gray-400 justify-start gap-2 h-9 text-xs">
+                                    <Link href="/dashboard/interview/experience"> <Button variant="outline" className="w-full bg-white/5 border-white/10 hover:bg-white/10 hover:text-white hover:border-white/20 text-gray-400 justify-start gap-2 h-9 text-xs">
                                         <Video size={14} className="text-red-400" /> Experience
-                                    </Button>
+                                    </Button></Link>
                                 </div>
 
                                 <Button className={`w-full ${company.bg} hover:bg-opacity-20 text-white border border-white/5`}>
