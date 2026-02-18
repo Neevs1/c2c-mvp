@@ -158,6 +158,12 @@ export default function Experience() {
                     ))}
                 </div>
             </Card>
+            <Card className="bg-gray-900">
+                 <h1 className='text-white'>Experience video</h1>
+                 <iframe width="420" height="315"
+                    src="https://youtu.be/ez1A3cqp30k">
+                </iframe> 
+            </Card>
 
             {/* Final Result */}
             <Card className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 p-6 border-green-500/30 text-center">
