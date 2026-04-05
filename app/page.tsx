@@ -28,6 +28,11 @@ export default function LandingPage() {
               </span>
             </div>
             <div className="flex items-center gap-4">
+              <a href="https://c2c-placement-pulse.base44.app/" target="_blank" rel="noopener noreferrer">
+                <button className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
+                  For Colleges
+                </button>
+              </a>
               <Link href="/login">
                 <button className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
                   Login
