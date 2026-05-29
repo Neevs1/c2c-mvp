@@ -2,7 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Layers, Briefcase, Zap, User } from "lucide-react";
+import { Home, Layers, Briefcase, Zap, MessageSquare, ExternalLink } from "lucide-react";
+
+// ─── External URL for the Soft Skills AI module ───────────────────────────────
+// Change this value when deploying to production (e.g. "https://softskills.yourdomain.com")
+const SOFT_SKILLS_AI_URL = "http://localhost:5173";
 
 export default function Sidebar() {
     const pathname = usePathname();
@@ -54,6 +58,18 @@ export default function Sidebar() {
                         </Link>
                     );
                 })}
+
+                {/* External: Soft Skills AI Module */}
+                <a
+                    href={SOFT_SKILLS_AI_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-4 px-4 py-4 rounded-xl transition-all duration-200 text-gray-400 hover:bg-white/5 hover:text-white group"
+                >
+                    <MessageSquare className="w-5 h-5 text-gray-500 group-hover:text-white transition-colors duration-200" />
+                    <span className="flex-1">Soft Skills AI</span>
+                    <ExternalLink className="w-3.5 h-3.5 text-gray-600 group-hover:text-gray-400 transition-colors duration-200" />
+                </a>
             </nav>
 
             <div className="p-4 text-xs text-center text-gray-600">
