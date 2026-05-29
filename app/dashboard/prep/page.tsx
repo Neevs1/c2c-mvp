@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Lock, ChevronDown, ChevronUp, CheckCircle, Circle, Play, X } from "lucide-react";
+import { Lock, ChevronDown, ChevronUp, CheckCircle, Circle, Play } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { QuizModal } from "@/components/QuizModal";
 
 // --- 1. The Demo Data Structure ---
 const initialModules = [
@@ -77,7 +78,12 @@ const initialModules = [
 export default function PrepPage() {
     const [expandedId, setExpandedId] = useState<number | null>(1);
     const [completedTopics, setCompletedTopics] = useState<string[]>([]); // Stores IDs like "1-1"
-    const [activeQuestion, setActiveQuestion] = useState<any | null>(null); // For the Modal
+
+    // QuizModal state
+    const [quizOpen, setQuizOpen] = useState(false);
+    const [quizTopic, setQuizTopic] = useState("");
+    const [quizTitle, setQuizTitle] = useState("");
+    const [activeTopicId, setActiveTopicId] = useState<string | null>(null);
 
     // --- Logic: Check if things are locked ---
     const isTopicLocked = (modIndex: number, topicIndex: number) => {
@@ -109,22 +115,32 @@ export default function PrepPage() {
     };
 
     // --- Actions ---
-    const handleStartTopic = (topic: any) => {
-        setActiveQuestion(topic);
+    const handleStartTopic = (topic: { id: string; title: string }) => {
+        setQuizTopic(topic.title);
+        setQuizTitle(topic.title);
+        setActiveTopicId(topic.id);
+        setQuizOpen(true);
     };
 
-    const handleCompleteTopic = () => {
-        if (activeQuestion) {
-            setCompletedTopics([...completedTopics, activeQuestion.id]);
-            setActiveQuestion(null); // Close modal
-
-            // Auto-expand next module if we just finished the last topic of current module
-            // (Optional simple UX improvement)
+    const handleQuizClose = () => {
+        // Mark the topic as completed when the quiz modal is closed
+        if (activeTopicId && !completedTopics.includes(activeTopicId)) {
+            setCompletedTopics((prev) => [...prev, activeTopicId]);
         }
+        setQuizOpen(false);
+        setActiveTopicId(null);
     };
 
     return (
         <div className="max-w-4xl mx-auto space-y-8 pt-6 pb-20 relative">
+
+            {/* Quiz Modal */}
+            <QuizModal
+                isOpen={quizOpen}
+                onClose={handleQuizClose}
+                topic={quizTopic}
+                title={quizTitle}
+            />
 
             {/* Header */}
             <div className="flex items-end justify-between">
@@ -245,61 +261,7 @@ export default function PrepPage() {
                 })}
             </div>
 
-            {/* --- DEMO QUESTION MODAL --- */}
-            <AnimatePresence>
-                {activeQuestion && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-                        <motion.div
-                            initial={{ scale: 0.9, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.9, opacity: 0 }}
-                            className="bg-[#1e293b] w-full max-w-lg rounded-2xl border border-white/10 shadow-2xl overflow-hidden"
-                        >
-                            {/* Modal Header */}
-                            <div className="p-6 border-b border-white/10 flex justify-between items-center">
-                                <h3 className="text-xl font-bold text-white">Quick Check</h3>
-                                <button onClick={() => setActiveQuestion(null)} className="text-gray-400 hover:text-white">
-                                    <X className="w-6 h-6" />
-                                </button>
-                            </div>
 
-                            {/* Modal Body */}
-                            <div className="p-8">
-                                <span className="text-xs font-bold text-blue-400 uppercase tracking-wider mb-2 block">
-                                    {activeQuestion.title}
-                                </span>
-                                <h4 className="text-2xl font-medium text-white mb-6">
-                                    {activeQuestion.questionDemo}
-                                </h4>
-
-                                <div className="space-y-3">
-                                    {["Option A", "Option B", "Option C", "Option D"].map((opt, i) => (
-                                        <div key={i} className="p-3 rounded-lg border border-white/10 hover:bg-white/5 cursor-pointer text-gray-300 hover:text-white transition-colors">
-                                            {opt}
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Modal Footer */}
-                            <div className="p-6 border-t border-white/10 bg-[#0f172a] flex justify-end gap-3">
-                                <button
-                                    onClick={() => setActiveQuestion(null)}
-                                    className="px-4 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-all"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    onClick={handleCompleteTopic}
-                                    className="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-500 text-white font-bold shadow-lg shadow-green-500/20 transition-all"
-                                >
-                                    Submit & Unlock Next
-                                </button>
-                            </div>
-                        </motion.div>
-                    </div>
-                )}
-            </AnimatePresence>
 
         </div>
     );
