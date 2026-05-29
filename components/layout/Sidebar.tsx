@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Layers, Briefcase, Zap, MessageSquare, ExternalLink } from "lucide-react";
+import { Home, Layers, Cpu, Briefcase, Zap, MessageSquare, ExternalLink } from "lucide-react";
 
 // ─── External URL for the Soft Skills AI module ───────────────────────────────
 // Change this value when deploying to production (e.g. "https://softskills.yourdomain.com")
@@ -14,6 +14,7 @@ export default function Sidebar() {
     const menuItems = [
         { icon: Home, label: "Home", href: "/dashboard" },
         { icon: Layers, label: "Prep Phase", href: "/dashboard/prep" },
+        { icon: Cpu, label: "Domain Specific", href: "/dashboard/domain-specific" },
         { icon: Briefcase, label: "Interview Phase", href: "/dashboard/interview" },
     ];
 
@@ -43,7 +44,10 @@ export default function Sidebar() {
             {/* Navigation */}
             <nav className="flex-1 px-4 space-y-2">
                 {menuItems.map((item) => {
-                    const isActive = pathname === item.href;
+                    const isActive =
+                        item.href === "/dashboard"
+                            ? pathname === item.href
+                            : pathname.startsWith(item.href);
                     return (
                         <Link
                             key={item.href}
