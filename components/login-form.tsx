@@ -32,38 +32,14 @@ export function LoginForm({
   };
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevents page reload
-
-    try {
-      const res = await fetch("/api/py/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ email: user }),
-      });
-      const data = await res.json();
-
-      if (res.ok) {
-        localStorage.setItem("user", data.email);
-        router.push("/dashboard");
-      }
-
-      if (!res.ok) {
-        const data = await res.json();
-        alert("Invalid email Id, please check")
-        throw new Error(data.detail || "User not found");
-      }
-
-
-    } catch (err: any) {
-      setError(err.message);
-    }
+    localStorage.setItem("user", user);
+    router.push("/dashboard");
   }
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="bg-[#111827] overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8">
+          <form className="p-6 md:p-8" onSubmit={handleLogin}>
             <FieldGroup>
               <div className="flex flex-col items-center gap-2 text-center">
                 <h1 className="text-2xl font-bold text-[#e5e7eb]">Welcome back</h1>
@@ -95,7 +71,9 @@ export function LoginForm({
                 <Input id="password" type="password" value={password} onChange={handlePwdChange} required />
               </Field>
               <Field>
-                <Link href="/dashboard"><Button className="bg-[#2563eb] hover:bg-[#0ea5e9]" type="submit" >Login</Button></Link>
+                <Button className="bg-[#2563eb] hover:bg-[#0ea5e9]" type="submit" >
+                  Login
+                </Button>
               </Field>
 
               <FieldDescription className="text-center">
