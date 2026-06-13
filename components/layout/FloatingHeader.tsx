@@ -18,16 +18,22 @@ export default function FloatingHeader() {
     // 👇 This "isMounted" check fixes the Radix ID Error (Red Screen)
     const [isMounted, setIsMounted] = useState(false);
     const [usermail,setUsermail] = useState("");
+    const name = localStorage.getItem("name") || "User";
+    const initials = name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);
     const router = useRouter();
      function logout(){
             //Removes stored email corresponding to "user". Redirects to landing page after successfull
             localStorage.removeItem("user");
+            localStorage.removeItem("college");
+            localStorage.removeItem("email");
+            localStorage.removeItem("name");
             router.push("/");
     
         }
+    
     useEffect(() => {
         
-        setUsermail(localStorage.getItem("user")!);
+        setUsermail(localStorage.getItem("email")!);
     },[]);
 
     useEffect(() => {
@@ -62,14 +68,14 @@ export default function FloatingHeader() {
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="relative h-10 w-10 rounded-full ring-2 ring-white/10 hover:ring-blue-500 transition-all p-0 overflow-hidden">
                             <div className="h-full w-full bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center font-bold text-white">
-                                JD
+                                {initials}
                             </div>
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-56 bg-[#111827] border-white/10 text-white" align="end" forceMount>
                         <DropdownMenuLabel className="font-normal">
                             <div className="flex flex-col space-y-1">
-                                <p className="text-sm font-medium leading-none">John Doe</p>
+                                <p className="text-sm font-medium leading-none">{name}</p>
                                 <p className="text-xs leading-none text-gray-400">{usermail}</p>
                             </div>
                         </DropdownMenuLabel>

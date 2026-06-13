@@ -10,7 +10,8 @@ const SOFT_SKILLS_AI_URL = "http://localhost:5173";
 
 export default function Sidebar() {
     const pathname = usePathname();
-
+    const name = localStorage.getItem("name") || "User";
+    const initials = name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);
     const menuItems = [
         { icon: Home, label: "Home", href: "/dashboard" },
         { icon: Layers, label: "Prep Phase", href: "/dashboard/prep" },
@@ -31,9 +32,9 @@ export default function Sidebar() {
             {/* User Profile Snippet (Top Left in your React design) */}
             <div className="px-6 mb-8 text-center">
                 <div className="w-16 h-16 mx-auto rounded-full bg-white text-blue-900 font-bold text-2xl flex items-center justify-center mb-3">
-                    JD
+                    {initials}
                 </div>
-                <h3 className="font-bold text-lg">John Doe</h3>
+                <h3 className="font-bold text-lg">{name}</h3>
                 <p className="text-sm text-gray-400">Level 5</p>
                 <div className="flex items-center justify-center gap-3 mt-2 text-xs font-medium">
                     <span className="text-orange-500 flex items-center gap-1"><Zap className="w-3 h-3 fill-orange-500" /> 12</span>

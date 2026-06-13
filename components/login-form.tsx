@@ -20,12 +20,12 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const [user, setUser] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPwd] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
-  const handleUserChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUser(event.target.value);
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
   };
 
   const handlePwdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,8 +33,21 @@ export function LoginForm({
   };
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevents page reload
-    localStorage.setItem("user", user);
-    router.push("/dashboard");
+    const response = await fetch("/api/auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ "username":email, "password":password }),
+    });
+    const data = await response.json();
+    if (data.error) {
+      setError(data.error);
+    } else {
+      localStorage.setItem("user", data.userId);
+      localStorage.setItem("college", data.userCollege);
+      localStorage.setItem("email", data.userEmail);
+      localStorage.setItem("name", data.userName);
+      router.push("/dashboard");
+    }
   }
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -54,9 +67,9 @@ export function LoginForm({
                   className="text-[#e5e7eb]"
                   id="email"
                   type="email"
-                  value={user}
+                  value={email}
                   placeholder="m@example.com"
-                  onChange={handleUserChange}
+                  onChange={handleEmailChange}
                   required
                 />
               </Field>
