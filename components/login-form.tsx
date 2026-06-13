@@ -70,7 +70,7 @@ export function LoginForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" value={password} onChange={handlePwdChange} required />
+                <Input className="text-[#e5e7eb]" id="password" type="password" value={password} onChange={handlePwdChange} required />
               </Field>
               <Field>
                 <Button className="bg-[#2563eb] hover:bg-[#0ea5e9]" type="submit" >

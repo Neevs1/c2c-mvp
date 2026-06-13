@@ -53,7 +53,7 @@ export const submitQuizResult = async (
         const res = await fetch("/api/quiz/eval", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ user_id: userId, subject, score }),
+            body: JSON.stringify({ studentID: userId, subtopicID: subject, score: score }),
         });
         if (!res.ok) {
             console.error(`Failed to submit quiz result: ${res.status}`);
