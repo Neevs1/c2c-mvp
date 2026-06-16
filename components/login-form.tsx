@@ -14,6 +14,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import  Image   from "next/image"
+import { useAuth } from "@/components/auth-context"
 
 
 export function LoginForm({
@@ -24,6 +25,7 @@ export function LoginForm({
   const [password, setPwd] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
+  const { refreshUser } = useAuth();
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
@@ -42,10 +44,7 @@ export function LoginForm({
     if (data.error) {
       setError(data.error);
     } else {
-      localStorage.setItem("user", data.userId);
-      localStorage.setItem("college", data.userCollege);
-      localStorage.setItem("email", data.userEmail);
-      localStorage.setItem("name", data.userName);
+      await refreshUser();
       router.push("/dashboard");
     }
   }

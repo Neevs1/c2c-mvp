@@ -4,10 +4,6 @@ const nextConfig: NextConfig = {
  rewrites: async () => {
     return [
       {
-        source: "/api/auth",
-        destination: "http://127.0.0.1:5000/auth",
-      },
-      {
         source: "/api/quiz/questions/:path*",
         destination: "http://127.0.0.1:8000/questions/:path*",
       },

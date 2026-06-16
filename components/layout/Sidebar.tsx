@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Layers, Cpu, Briefcase, Zap, MessageSquare, ExternalLink } from "lucide-react";
+import { useAuth } from "@/components/auth-context";
 
 // ─── External URL for the Soft Skills AI module ───────────────────────────────
 // Change this value when deploying to production (e.g. "https://softskills.yourdomain.com")
@@ -10,7 +11,8 @@ const SOFT_SKILLS_AI_URL = "http://localhost:5173";
 
 export default function Sidebar() {
     const pathname = usePathname();
-    const name = localStorage.getItem("name") || "User";
+    const { user } = useAuth();
+    const name = user?.name || "User";
     const initials = name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);
     const menuItems = [
         { icon: Home, label: "Home", href: "/dashboard" },

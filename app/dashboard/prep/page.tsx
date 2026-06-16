@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Lock, ChevronDown, ChevronUp, CheckCircle, Circle, Play } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { QuizModal } from "@/components/QuizModal";
+import { useAuth } from "@/components/auth-context";
 
 // --- 1. The Demo Data Structure ---
 const initialModules = [
@@ -78,6 +79,7 @@ const initialModules = [
 export default function PrepPage() {
     const [expandedId, setExpandedId] = useState<number | null>(1);
     const [completedTopics, setCompletedTopics] = useState<string[]>([]); // Stores IDs like "1-1"
+    const { user } = useAuth();
 
     // QuizModal state
     const [quizOpen, setQuizOpen] = useState(false);
@@ -140,6 +142,7 @@ export default function PrepPage() {
                 onClose={handleQuizClose}
                 topic={quizTopic}
                 title={quizTitle}
+                userId={user?.userId}
             />
 
             {/* Header */}

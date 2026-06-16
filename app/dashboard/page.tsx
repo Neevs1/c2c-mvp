@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { QuizModal } from "@/components/QuizModal";
+import { useAuth } from "@/components/auth-context";
 import { ProgressChart } from "@/components/ProgressChart";
 
 export default function dashboard() {
@@ -13,6 +14,7 @@ export default function dashboard() {
     const [quizOpen, setQuizOpen] = useState(false);
     const [quizTopic, setQuizTopic] = useState("");
     const [quizTitle, setQuizTitle] = useState("");
+    const { user } = useAuth();
 
 
 
@@ -29,6 +31,7 @@ export default function dashboard() {
                 onClose={() => setQuizOpen(false)}
                 topic={quizTopic}
                 title={quizTitle}
+                userId={user?.userId}
             />
 
             {/* Header */}

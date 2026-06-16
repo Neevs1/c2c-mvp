@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { QuizModal } from "@/components/QuizModal";
+import { useAuth } from "@/components/auth-context";
 
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
@@ -80,6 +81,7 @@ export default function InterviewPage() {
     const [quizOpen, setQuizOpen] = useState(false);
     const [quizTopic, setQuizTopic] = useState("");
     const [quizTitle, setQuizTitle] = useState("");
+    const { user } = useAuth();
 
     const handleStartQuiz = (companyName: string) => {
         setQuizTopic(companyName);
@@ -94,6 +96,7 @@ export default function InterviewPage() {
                 onClose={() => setQuizOpen(false)}
                 topic={quizTopic}
                 title={quizTitle}
+                userId={user?.userId}
             />
 
             {/* Header */}

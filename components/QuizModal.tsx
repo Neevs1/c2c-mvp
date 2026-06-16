@@ -11,9 +11,10 @@ interface QuizModalProps {
     onClose: () => void;
     topic: string;
     title: string;
+    userId?: string;
 }
 
-export function QuizModal({ isOpen, onClose, topic, title }: QuizModalProps) {
+export function QuizModal({ isOpen, onClose, topic, title, userId = "anonymous" }: QuizModalProps) {
     const [questions, setQuestions] = useState<Question[]>([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [score, setScore] = useState(0);
@@ -113,9 +114,6 @@ export function QuizModal({ isOpen, onClose, topic, title }: QuizModalProps) {
             setShowResult(true);
             setIsSubmitting(true);
             setSubmitError(null);
-
-            // Get user_id from localStorage
-            const userId = localStorage.getItem("user") || "anonymous";
 
             const success = await submitQuizResult(userId, topic, finalScore);
             setIsSubmitting(false);
