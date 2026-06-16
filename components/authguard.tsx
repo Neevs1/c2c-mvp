@@ -1,22 +1,20 @@
 "use client";
-import { useEffect, useState } from "react";
+
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/components/auth-context";
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
     const router = useRouter();
-    const [authorized, setAuthorized] = useState(false);
+    const { user, isLoading } = useAuth();
 
     useEffect(() => {
-        const user = localStorage.getItem("user");
-        if (!user) {
+        if (!isLoading && !user) {
             router.push("/");
-        } else {
-            setAuthorized(true);
         }
-    }, [router]);
+    }, [user, isLoading, router]);
 
-    
-    if (!authorized) return null; 
+    if (isLoading || !user) return null;
 
     return <>{children}</>;
 }

@@ -1,20 +1,22 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { useAuth } from "@/components/auth-context";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function LandingPage() {
   const router = useRouter();
+  const { user, isLoading } = useAuth();
 
   useEffect(() => {
-    // Auth check moved to useEffect to prevent render-phase updates
-    const user = localStorage.getItem("user");
-    if (user) {
+    // Redirect authenticated users to dashboard
+    if (!isLoading && user) {
       router.push("/dashboard");
     }
-  }, [router]);
+  }, [user, isLoading, router]);
 
   return (
     <div className="min-h-screen bg-[#030712] text-white flex flex-col">

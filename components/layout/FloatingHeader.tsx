@@ -12,29 +12,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { useAuth } from "@/components/auth-context";
 
 export default function FloatingHeader() {
     // 👇 This "isMounted" check fixes the Radix ID Error (Red Screen)
     const [isMounted, setIsMounted] = useState(false);
-    const [usermail,setUsermail] = useState("");
-    const name = localStorage.getItem("name") || "User";
+    const { user, logout } = useAuth();
+    const name = user?.name || "User";
+    const email = user?.email || "";
     const initials = name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);
-    const router = useRouter();
-     function logout(){
-            //Removes stored email corresponding to "user". Redirects to landing page after successfull
-            localStorage.removeItem("user");
-            localStorage.removeItem("college");
-            localStorage.removeItem("email");
-            localStorage.removeItem("name");
-            router.push("/");
-    
-        }
-    
-    useEffect(() => {
-        
-        setUsermail(localStorage.getItem("email")!);
-    },[]);
 
     useEffect(() => {
         setIsMounted(true);
@@ -76,7 +62,7 @@ export default function FloatingHeader() {
                         <DropdownMenuLabel className="font-normal">
                             <div className="flex flex-col space-y-1">
                                 <p className="text-sm font-medium leading-none">{name}</p>
-                                <p className="text-xs leading-none text-gray-400">{usermail}</p>
+                                <p className="text-xs leading-none text-gray-400">{email}</p>
                             </div>
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator className="bg-white/10" />
